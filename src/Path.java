@@ -1,14 +1,18 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Path {
     private ArrayList<Double> Xs;
     private ArrayList<Double> Ys;
+    Color color;
     public int n;
-    public Path(ArrayList<Double> xs, ArrayList<Double> ys) {
+    public int k;
+    public Path(ArrayList<Double> xs, ArrayList<Double> ys, Color color) {
         Xs = xs;
         Ys = ys;
         n = Xs.size();
+        this.color = color;
     }
 
     public ArrayList<Double> getXs() {
@@ -28,7 +32,7 @@ public class Path {
     }
     public void paint(Graphics g){
         for (int i = 0; i < n; ++i){
-            g.setColor(Color.red);
+            g.setColor(color);
             g.fillRect(Xs.get(i).intValue() - 7, Ys.get(i).intValue() - 7, 14, 14);
         }
     }

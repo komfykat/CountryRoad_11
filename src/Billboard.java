@@ -5,21 +5,26 @@ import java.util.ArrayList;
 public class Billboard extends JPanel {
     Car car;
     ArrayList<Car> cars;
-    ArrayList<Block> blocks;
-    Path path;
-//    Billboard(ArrayList<Car> cars, ArrayList<Block> blocks, Car car){
-//        this.cars = cars;
-//        this.blocks = blocks;
-//        this.car = car;
-//    }
-Billboard(Car car, Path path){
-        this.car = car;
-        this.path = path;
+    ArrayList<Path> paths;
+
+    Billboard(ArrayList<Car> cars, ArrayList<Path> paths) {
+        this.cars = cars;
+        this.paths = paths;
     }
+
+    Billboard(Car car, ArrayList<Path> paths) {
+        this.car = car;
+        this.paths = paths;
+    }
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        car.paint(g);
-        path.paint(g);
+        for (Car car : cars){
+            car.paint(g);
+        }
+        for (Path path: paths){
+            path.paint(g);
+        }
     }
 
 }
