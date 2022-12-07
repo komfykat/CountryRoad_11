@@ -38,19 +38,6 @@ public class Main {
         }
         while (true){
             frame.repaint();
-//            for (int i = 0; i < cars.size(); ++i){
-//                Car cari = cars.get(i);
-//                for (int j = i + 1; j < cars.size(); ++ j){
-//                    Car carj = cars.get(j);
-//                    if (cari.check(carj)){
-//                        cari.stop();
-//                    }
-//                    else{
-//                        cari.move();
-//                        carj.move();
-//                    }
-//                }
-//            }
             for (ArrayList<Integer> pair : pairs){
                 Car cari = cars.get(pair.get(0));
                 Car carj = cars.get(pair.get(1));

@@ -109,7 +109,7 @@ public class Car {
     }
 
     public boolean check(Car car) {
-        if (distance(car) < 100) {
+        if (distance(car) < 200) {
             return true;
         } else {
             return false;
