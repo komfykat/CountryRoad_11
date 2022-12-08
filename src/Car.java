@@ -1,28 +1,30 @@
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 
 public class Car {
     private double x;
     private double y;
+    private double BlockX;
+    private double BlockY;
     private double v;
     private double angle;
     private double width;
     private double height;
     private Path path;
-    private int position = 0;
+    private Block block;
+    private int PathPosition = 0;
     private boolean inMotion = true;
     private boolean inPath = true;
     public double stopTime = 0;
+    public Color color;
 
-    public Car(double x, double y, double v, double width, double height, double angle, Path path) {
-        this.x = x;
-        this.y = y;
+    public Car(double blockX, double blockY, double v, double width, double height, Path path, Block block) {
+        BlockX = blockX;
+        BlockY = blockY;
         this.v = v;
-        this.angle = angle;
         this.width = width;
         this.height = height;
         this.path = path;
+        this.block = block;
     }
 
     public double getX() {
@@ -78,21 +80,24 @@ public class Car {
         if (inPath) {
             if (inMotion) {
                 stopTime = 0;
-                double nextX = path.getXs().get(position);
-                double nextY = path.getYs().get(position);
+                double nextX = path.getXs().get(PathPosition);
+                double nextY = path.getYs().get(PathPosition);
                 double vx = v * (nextX - x) / Math.sqrt(Math.pow(nextX - x, 2) + Math.pow(nextY - y, 2));
                 double vy = v * (nextY - y) / Math.sqrt(Math.pow(nextX - x, 2) + Math.pow(nextY - y, 2));
                 x += vx * 0.017;
                 y += vy * 0.017;
-                if (Math.abs(x - nextX) <= 5 && Math.abs(y - nextY) <= 5 && position < path.n) {
-                    position++;
+                if (Math.abs(x - nextX) <= 5 && Math.abs(y - nextY) <= 5 && PathPosition < path.n) {
+                    PathPosition++;
                 }
-                if (Math.abs(x - nextX) <= 5 && Math.abs(y - nextY) <= 5 && position == path.n) {
+                if (Math.abs(x - nextX) <= 5 && Math.abs(y - nextY) <= 5 && PathPosition == path.n) {
                     inPath = false;
                 }
             }
+            else{
+                stopTime += 17;
+            }
         } else {
-            stopTime += 17;
+            //TODO car.findBlock();
         }
     }
 
@@ -104,17 +109,20 @@ public class Car {
         inMotion = true;
     }
 
-    public double distance(Car car) {
-        return Math.sqrt(Math.pow(x - car.x, 2) + Math.pow(y - car.y, 2));
-    }
+    //TODO find next block
 
-    public boolean check(Car car) {
-        if (distance(car) < 200) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
+//    public double distance(Car car) {
+//        return Math.sqrt(Math.pow(x - car.x, 2) + Math.pow(y - car.y, 2));
+//    }
+//
+//    public boolean check(Car car) {
+//        if (distance(car) < 100) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 
     public void paint(Graphics g) {
 //        Graphics2D g2 = (Graphics2D)g;
@@ -124,7 +132,7 @@ public class Car {
 //        tx.rotate(angle);
 //        Rectangle shape = new Rectangle((int)x1, (int)y1, (int)width, (int)height);
 //        g2.draw(shape);
-        g.setColor(Color.black);
+        g.setColor(color);
         g.fillRect((int) (x - width / 2), (int) (y - height / 2), (int) width, (int) height);
 
     }
