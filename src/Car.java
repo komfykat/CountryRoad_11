@@ -1,23 +1,25 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Car {
     private double x;
     private double y;
-    private double BlockX;
-    private double BlockY;
+    public double BlockX;
+    public double BlockY;
     private double v;
     private double angle;
     private double width;
     private double height;
-    private Path path;
-    private Block block;
-    private int PathPosition = 0;
-    private boolean inMotion = true;
-    private boolean inPath = true;
+    public Path path;
+    public Block block;
+    public int PathPosition = 0;
+    public boolean inMotion = true;
+    public boolean inPath = true;
     public double stopTime = 0;
     public Color color;
+    public ArrayList<Block> blocks;
 
-    public Car(double blockX, double blockY, double v, double width, double height, Path path, Block block) {
+    public Car(double blockX, double blockY, double v, double width, double height, Path path, Block block, ArrayList<Block> blocks) {
         BlockX = blockX;
         BlockY = blockY;
         this.v = v;
@@ -25,9 +27,13 @@ public class Car {
         this.height = height;
         this.path = path;
         this.block = block;
+        this.x = BlockX + this.block.getX();
+        this.y = BlockY + this.block.getY();
+        this.blocks = blocks;
     }
 
     public double getX() {
+        x = BlockX + block.x;
         return x;
     }
 
@@ -36,6 +42,7 @@ public class Car {
     }
 
     public double getY() {
+        y = BlockY + block.y;
         return y;
     }
 
@@ -82,24 +89,31 @@ public class Car {
                 stopTime = 0;
                 double nextX = path.getXs().get(PathPosition);
                 double nextY = path.getYs().get(PathPosition);
-                double vx = v * (nextX - x) / Math.sqrt(Math.pow(nextX - x, 2) + Math.pow(nextY - y, 2));
-                double vy = v * (nextY - y) / Math.sqrt(Math.pow(nextX - x, 2) + Math.pow(nextY - y, 2));
-                x += vx * 0.017;
-                y += vy * 0.017;
-                if (Math.abs(x - nextX) <= 5 && Math.abs(y - nextY) <= 5 && PathPosition < path.n) {
+                System.out.println(nextX + " " + nextY);
+                if (Math.abs(BlockX - nextX) <= 1 && Math.abs(BlockY - nextY) <= 1 && PathPosition < path.n) {
                     PathPosition++;
                 }
-                if (Math.abs(x - nextX) <= 5 && Math.abs(y - nextY) <= 5 && PathPosition == path.n) {
+                if (Math.abs(BlockX - nextX) <= 1 && Math.abs(BlockY - nextY) <= 1 && PathPosition == path.n) {
                     inPath = false;
                 }
+                else{
+                    nextX = path.getXs().get(PathPosition);
+                    nextY = path.getYs().get(PathPosition);
+                }
+                double vx = v * (nextX - BlockX) / Math.sqrt(Math.pow(nextX - BlockX, 2) + Math.pow(nextY - BlockY, 2));
+                double vy = v * (nextY - BlockY) / Math.sqrt(Math.pow(nextX - BlockX, 2) + Math.pow(nextY - BlockY, 2));
+                System.out.println(vx + " " + vy);
+                BlockX += vx * 0.017;
+                BlockY += vy * 0.017;
             }
             else{
                 stopTime += 17;
             }
         } else {
-            //TODO car.findBlock();
+            findNextBlock();
         }
     }
+
 
     public void stop() {
         inMotion = false;
@@ -109,7 +123,20 @@ public class Car {
         inMotion = true;
     }
 
-    //TODO find next block
+    public void findNextBlock(){
+        for (Block block : blocks){
+            for (Path path: block.paths){
+                if (Math.abs(path.getXs().get(0) + block.x - getX()) <= 1 && Math.abs(path.getYs().get(0) + block.y - getY())<= 1){
+                    this.block = block;
+                    this.path = path;
+                    PathPosition = 0;
+                    inPath = true;
+                    BlockX = path.getXs().get(0);
+                    BlockY = path.getYs().get(0);
+                }
+            }
+        }
+    }
 
 
 //    public double distance(Car car) {
@@ -133,7 +160,7 @@ public class Car {
 //        Rectangle shape = new Rectangle((int)x1, (int)y1, (int)width, (int)height);
 //        g2.draw(shape);
         g.setColor(color);
-        g.fillRect((int) (x - width / 2), (int) (y - height / 2), (int) width, (int) height);
+        g.fillRect((int) (getX() - width / 2), (int) (getY() - height / 2), (int) width, (int) height);
 
     }
 

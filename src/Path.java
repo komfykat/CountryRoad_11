@@ -8,7 +8,7 @@ public class Path {
     Color color;
     public int n;
     Block block;
-    public Path(ArrayList<Double> xs, ArrayList<Double> ys, Color color, Block block) {
+    public Path(ArrayList<Double> xs, ArrayList<Double> ys, Color color) {
         Xs = xs;
         Ys = ys;
         n = Xs.size();
@@ -34,7 +34,7 @@ public class Path {
     public void paint(Graphics g){
         for (int i = 0; i < n; ++i){
             g.setColor(color);
-            g.fillRect(Xs.get(i).intValue() - 1 + (int) block.x, Ys.get(i).intValue() - 1 + (int) block.y, 2, 2);
+            g.fillRect(Xs.get(i).intValue() - 2 + (int) block.x, Ys.get(i).intValue() - 2 + (int) block.y, 4, 4);
         }
     }
 }
