@@ -90,10 +90,10 @@ public class Car {
                 double nextX = path.getXs().get(PathPosition);
                 double nextY = path.getYs().get(PathPosition);
                 System.out.println(nextX + " " + nextY);
-                if (Math.abs(BlockX - nextX) <= 1 && Math.abs(BlockY - nextY) <= 1 && PathPosition < path.n) {
+                if (Math.abs(BlockX - nextX) <= Constants.epsilon && Math.abs(BlockY - nextY) <= Constants.epsilon && PathPosition < path.n) {
                     PathPosition++;
                 }
-                if (Math.abs(BlockX - nextX) <= 1 && Math.abs(BlockY - nextY) <= 1 && PathPosition == path.n) {
+                if (Math.abs(BlockX - nextX) <= Constants.epsilon && Math.abs(BlockY - nextY) <= Constants.epsilon && PathPosition == path.n) {
                     inPath = false;
                 }
                 else{
@@ -103,12 +103,10 @@ public class Car {
                 double vx = v * (nextX - BlockX) / Math.sqrt(Math.pow(nextX - BlockX, 2) + Math.pow(nextY - BlockY, 2));
                 double vy = v * (nextY - BlockY) / Math.sqrt(Math.pow(nextX - BlockX, 2) + Math.pow(nextY - BlockY, 2));
                 System.out.println(vx + " " + vy);
-                BlockX += vx * 0.017;
-                BlockY += vy * 0.017;
+                BlockX += vx * Constants.tick;
+                BlockY += vy * Constants.tick;
             }
-            else{
-                stopTime += 17;
-            }
+
         } else {
             findNextBlock();
         }
@@ -126,7 +124,7 @@ public class Car {
     public void findNextBlock(){
         for (Block block : blocks){
             for (Path path: block.paths){
-                if (Math.abs(path.getXs().get(0) + block.x - getX()) <= 1 && Math.abs(path.getYs().get(0) + block.y - getY())<= 1){
+                if (Math.abs(path.getXs().get(0) + block.x - getX()) <= Constants.epsilon && Math.abs(path.getYs().get(0) + block.y - getY())<= Constants.epsilon){
                     this.block = block;
                     this.path = path;
                     PathPosition = 0;
