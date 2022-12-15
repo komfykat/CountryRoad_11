@@ -89,7 +89,7 @@ public class Car {
                 stopTime = 0;
                 double nextX = path.getXs().get(PathPosition);
                 double nextY = path.getYs().get(PathPosition);
-                System.out.println(nextX + " " + nextY);
+//                System.out.println(nextX + " " + nextY);
                 if (Math.abs(BlockX - nextX) <= Constants.epsilon && Math.abs(BlockY - nextY) <= Constants.epsilon && PathPosition < path.n) {
                     PathPosition++;
                 }
@@ -102,7 +102,7 @@ public class Car {
                 }
                 double vx = v * (nextX - BlockX) / Math.sqrt(Math.pow(nextX - BlockX, 2) + Math.pow(nextY - BlockY, 2));
                 double vy = v * (nextY - BlockY) / Math.sqrt(Math.pow(nextX - BlockX, 2) + Math.pow(nextY - BlockY, 2));
-                System.out.println(vx + " " + vy);
+//                System.out.println(vx + " " + vy);
                 BlockX += vx * Constants.tick;
                 BlockY += vy * Constants.tick;
             }

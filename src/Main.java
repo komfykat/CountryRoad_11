@@ -30,7 +30,7 @@ public class Main {
                 cari.update();
             }
             frame.repaint();
-            System.out.println(car.BlockX + " " + car.BlockY + " " + car.inPath + " " + car.inMotion + " " + car.PathPosition);
+//            System.out.println(car.BlockX + " " + car.BlockY + " " + car.inPath + " " + car.inMotion + " " + car.PathPosition);
             Thread.sleep((long) (Constants.tick * 1000));
         }
 
