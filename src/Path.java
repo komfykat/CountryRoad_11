@@ -13,7 +13,14 @@ public class Path {
         Ys = ys;
         n = Xs.size();
         this.color = color;
-        this.block = block;
+    }
+    public Path(ArrayList<Double> xs, ArrayList<Double> ys) {
+        Xs = xs;
+        Ys = ys;
+        n = Xs.size();
+        this.color = new Color(0, 0, 0, 1);
+    }
+    public Path(){
     }
 
     public ArrayList<Double> getXs() {

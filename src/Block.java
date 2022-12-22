@@ -46,5 +46,10 @@ public class Block {
             }
         }
     }
+    public void updatePaths(){
+        for (Path path : paths){
+            path.block = this;
+        }
+    }
 
 }
