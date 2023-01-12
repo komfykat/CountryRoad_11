@@ -7,11 +7,14 @@ public class Car {
     public double BlockX;
     public double BlockY;
     private double v;
+    public double vx;
+    public double vy;
     private double angle;
     private double width;
     private double height;
     public Path path;
     public Block block;
+
     public int PathPosition = 0;
     public boolean inMotion = true;
     public boolean inPath = true;
@@ -102,14 +105,24 @@ public class Car {
                 }
                 double vx = v * (nextX - BlockX) / Math.sqrt(Math.pow(nextX - BlockX, 2) + Math.pow(nextY - BlockY, 2));
                 double vy = v * (nextY - BlockY) / Math.sqrt(Math.pow(nextX - BlockX, 2) + Math.pow(nextY - BlockY, 2));
+                this.vx = vx;
+                this.vy = vy;
 //                System.out.println(vx + " " + vy);
+
                 BlockX += vx * Constants.tick;
                 BlockY += vy * Constants.tick;
+                System.out.println(BlockX + " " + BlockY + "\n");
             }
 
         } else {
             findNextBlock();
         }
+    }
+
+    public boolean atRight(Car car){
+        double futureX = BlockX + Constants.check * vx;
+        double futureY = BlockY + Constants.check * vy;
+        return true;
     }
 
 
