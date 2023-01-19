@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 public class Car {
@@ -14,13 +15,13 @@ public class Car {
     private double height;
     public Path path;
     public Block block;
-
     public int PathPosition = 0;
     public boolean inMotion = true;
     public boolean inPath = true;
     public double stopTime = 0;
     public Color color;
     public ArrayList<Block> blocks;
+    public ArrayList<Car> cars;
 
     public Car(double blockX, double blockY, double v, double width, double height, Path path, Block block, ArrayList<Block> blocks) {
         BlockX = blockX;
@@ -88,6 +89,18 @@ public class Car {
 
     public void update() {
         if (inPath) {
+            boolean flag = false;
+            for (Car car: cars){
+                if(check(car)){
+                    flag = true;
+                }
+            }
+            if (flag){
+                this.stop();
+            }
+            else{
+                this.move();
+            }
             if (inMotion) {
                 stopTime = 0;
                 double nextX = path.getXs().get(PathPosition);
@@ -119,10 +132,15 @@ public class Car {
         }
     }
 
+    public boolean intersect(Car car){
+        Line2D a = new Line2D.Double(x, y, x + Constants.check * vx, y + Constants.check * vy);
+        Line2D b = new Line2D.Double(car.x, car.y, car.x + Constants.check * car.vx, car.y + Constants.check * car.vy);
+        return a.intersectsLine(b);
+    }
     public boolean atRight(Car car){
-        double futureX = BlockX + Constants.check * vx;
-        double futureY = BlockY + Constants.check * vy;
-        return true;
+        Vector3D a = new Vector3D(Constants.check * vx, Constants.check * vy, 0);
+        Vector3D b = new Vector3D(Constants.check * car.vx, Constants.check * car.vy, 0);
+        return(a.right(b));
     }
 
 
@@ -150,17 +168,19 @@ public class Car {
     }
 
 
-//    public double distance(Car car) {
-//        return Math.sqrt(Math.pow(x - car.x, 2) + Math.pow(y - car.y, 2));
-//    }
-//
-//    public boolean check(Car car) {
-//        if (distance(car) < 100) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
+    public boolean check(Car car) {
+        if (intersect(car)) {
+            if (atRight(car)) {
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
 
     public void paint(Graphics g) {
 //        Graphics2D g2 = (Graphics2D)g;
