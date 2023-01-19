@@ -8,9 +8,18 @@ public class Vector3D {
         this.y = y;
         this.z = z;
     }
-    public boolean right(Vector3D v){
+
+    public boolean right(Vector3D v) {
         double z = x * v.y - y * v.x;
-        return (z < 0);
+        return (Math.abs(z) < 3 || z < 0);
+    }
+
+    public boolean onedirection(Vector3D v) {
+        if ((x == v.x) && (y == v.y) && (z == v.z)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

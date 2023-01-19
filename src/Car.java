@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class Car {
@@ -90,15 +91,16 @@ public class Car {
     public void update() {
         if (inPath) {
             boolean flag = false;
-            for (Car car: cars){
-                if(check(car)){
-                    flag = true;
+            for (Car car : cars) {
+                if (!car.equals(this)) {
+                    if (check(car)) {
+                        flag = true;
+                    }
                 }
             }
-            if (flag){
+            if (flag) {
                 this.stop();
-            }
-            else{
+            } else {
                 this.move();
             }
             if (inMotion) {
@@ -111,8 +113,7 @@ public class Car {
                 }
                 if (Math.abs(BlockX - nextX) <= Constants.epsilon && Math.abs(BlockY - nextY) <= Constants.epsilon && PathPosition == path.n) {
                     inPath = false;
-                }
-                else{
+                } else {
                     nextX = path.getXs().get(PathPosition);
                     nextY = path.getYs().get(PathPosition);
                 }
@@ -124,23 +125,36 @@ public class Car {
 
                 BlockX += vx * Constants.tick;
                 BlockY += vy * Constants.tick;
-                System.out.println(BlockX + " " + BlockY + "\n");
+//                System.out.println(BlockX + " " + BlockY + "\n");
             }
 
         } else {
             findNextBlock();
+            this.stop();
         }
     }
 
-    public boolean intersect(Car car){
-        Line2D a = new Line2D.Double(x, y, x + Constants.check * vx, y + Constants.check * vy);
-        Line2D b = new Line2D.Double(car.x, car.y, car.x + Constants.check * car.vx, car.y + Constants.check * car.vy);
-        return a.intersectsLine(b);
+    public boolean intersect(Car car) {
+        double carvx = 0;
+        double carvy = 0;
+        if (car.inMotion) {
+            carvx = car.vx;
+            carvy = car.vy;
+        }
+        if ( x > 170){
+//            System.out.println("hop");
+        }
+        Rectangle2D a = new Rectangle2D.Double(x - Constants.epsilon2, y - Constants.epsilon2, Constants.check * vx + Constants.epsilon2, Constants.check * vy + Constants.epsilon2);
+        Rectangle2D b = new Rectangle2D.Double(car.x - Constants.epsilon2, car.y - Constants.epsilon2, Constants.check * carvx + Constants.epsilon2, Constants.check * carvy + Constants.epsilon2);
+//        System.out.println(a);
+//        System.out.println(b);
+        return (a.intersects(b));
     }
-    public boolean atRight(Car car){
+
+    public boolean atRight(Car car) {
         Vector3D a = new Vector3D(Constants.check * vx, Constants.check * vy, 0);
         Vector3D b = new Vector3D(Constants.check * car.vx, Constants.check * car.vy, 0);
-        return(a.right(b));
+        return (a.right(b));
     }
 
 
@@ -152,10 +166,10 @@ public class Car {
         inMotion = true;
     }
 
-    public void findNextBlock(){
-        for (Block block : blocks){
-            for (Path path: block.paths){
-                if (Math.abs(path.getXs().get(0) + block.x - getX()) <= Constants.epsilon && Math.abs(path.getYs().get(0) + block.y - getY())<= Constants.epsilon){
+    public void findNextBlock() {
+        for (Block block : blocks) {
+            for (Path path : block.paths) {
+                if (Math.abs(path.getXs().get(0) + block.x - getX()) <= Constants.epsilon && Math.abs(path.getYs().get(0) + block.y - getY()) <= Constants.epsilon) {
                     this.block = block;
                     this.path = path;
                     PathPosition = 0;
@@ -169,27 +183,24 @@ public class Car {
 
 
     public boolean check(Car car) {
-        if (intersect(car)) {
-            if (atRight(car)) {
-                return true;
-            }
-            else{
+        if (block == car.block) {
+            if (intersect(car)) {
+                System.out.println("Intersects");
+                if (atRight(car)) {
+                    System.out.println("atright");
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
                 return false;
             }
-        }
-        else{
+        } else {
             return false;
         }
     }
 
     public void paint(Graphics g) {
-//        Graphics2D g2 = (Graphics2D)g;
-//        double x1 = x - Math.cos(angle) * width / 2 + Math.cos(Math.PI / 2 - angle) * height / 2;
-//        double y1 = y - Math.sin(angle) * width / 2 + Math.sin(Math.PI / 2 - angle) * height / 2;
-//        AffineTransform tx = new AffineTransform();
-//        tx.rotate(angle);
-//        Rectangle shape = new Rectangle((int)x1, (int)y1, (int)width, (int)height);
-//        g2.draw(shape);
         g.setColor(color);
         g.fillRect((int) (getX() - width / 2), (int) (getY() - height / 2), (int) width, (int) height);
 
