@@ -12,8 +12,6 @@ public class Spawner {
         this.x = x;
         this.y = y;
         this.blankcar = blankcar;
-        this.blankcar.setX(x);
-        this.blankcar.setY(y);
         this.spawnTime = spawnTime;
     }
 
@@ -28,8 +26,8 @@ public class Spawner {
                 }
             } else {
                 Car car1 = blankcar.copy();
-                car1.setX(blankcar.getX());
-                car1.setY(blankcar.getY());
+                car1.setX(x);
+                car1.setY(y);
                 car1.blocks = blocks;
                 if (car1.ifBlock()) {
                     car1.findNextBlock();

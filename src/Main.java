@@ -1,8 +1,4 @@
-import javax.sound.sampled.Line;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,14 +6,17 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         Random r = new Random(1);
-//        Crossroad crossroad = new Crossroad(100, 100, 100, 100);
-        Car blankcar = new Car(30, 10, 10);
-        Car blankcar1 = new Car(30, 10, 10);
-        Spawner spawner = new Spawner(45,  0, blankcar, 2000);
+        Car blankcar = new Car(30, 5, 5);
+        Spawner spawner = new Spawner(0,  55, blankcar, 2000);
+        Spawner spawner1 = new Spawner(45, 0, blankcar, 2000);
         ULBlock block = new ULBlock(0, 0, 100, 100);
         ArrayList<Block> blocks = new ArrayList<>(List.of(block));
-        ArrayList<Spawner> spawners = new ArrayList<>(List.of(spawner));
+        ArrayList<Spawner> spawners = new ArrayList<>(List.of(spawner, spawner1));
         ArrayList<Car> cars = new ArrayList<>();
+        Despawner despawner = new Despawner(0, 45, cars);
+        Despawner despawner1 = new Despawner(55, 0, cars);
+        ArrayList<Despawner> despawners = new ArrayList<>(List.of(despawner, despawner1));
+
         JFrame frame = new JFrame();
         frame.setSize(1920, 1080);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -31,6 +30,10 @@ public class Main {
             }
             for (Spawner spawneri : spawners){
                     spawneri.updateCars(cars, blocks);
+            }
+            for (Despawner despawneri : despawners){
+                despawneri.cars = cars;
+                cars = despawneri.update();
             }
             frame.repaint();
             Thread.sleep((long) (Constants.tick * 1000));
