@@ -11,7 +11,7 @@ public class Vector3D {
 
     public boolean right(Vector3D v) {
         double z = x * v.y - y * v.x;
-        return (Math.abs(z) < 3 || z < 0);
+        return z < 3;
     }
 
     public boolean onedirection(Vector3D v) {
