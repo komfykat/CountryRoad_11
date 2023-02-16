@@ -18,9 +18,9 @@ public class HBlock extends Block{
     @Override
     public void paint(Graphics g) {
         g.drawRect((int) this.x, (int) this.y, (int) width, (int)height);
-        double y0 = 0.4 * height;
-        double yt = 0.6 * height;
-        g.drawLine(0, (int)y0, (int)width, (int)y0);
-        g.drawLine(0, (int)yt, (int)width, (int)yt);
+        double y0 = 0.4 * height + y;
+        double yt = 0.6 * height + y;
+        g.drawLine((int) x, (int)(y + y0), (int)(x + width), (int)(y + y0));
+        g.drawLine((int) x, (int)(y + yt), (int)(x + width), (int)(y + yt));
     }
 }
