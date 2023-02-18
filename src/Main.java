@@ -5,6 +5,9 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
+        ArrayList<Integer> a = new ArrayList<>(List.of(1, 2, 3, 4));
+        System.out.println(a.get(0));
+        System.out.println(a.get(-1));
         Random r = new Random(1);
         Car blankcar = new Car(30, 5, 5);
         Spawner spawner = new Spawner(0,  55, blankcar, 2000);
