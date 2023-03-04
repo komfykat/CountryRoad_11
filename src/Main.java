@@ -5,9 +5,6 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        ArrayList<Integer> a = new ArrayList<>(List.of(1, 2, 3, 4));
-        System.out.println(a.get(0));
-        System.out.println(a.get(-1));
         Random r = new Random(1);
         Car blankcar = new Car(30, 5, 5);
         Spawner spawner = new Spawner(0,  55, blankcar, 2000);
@@ -16,7 +13,8 @@ public class Main {
         HBlock block1 = new HBlock(100, 0, 100, 100);
         HBlock block2 = new HBlock(200, 0, 100, 100);
         HBlock block3 = new HBlock(300, 0, 100, 100);
-        ArrayList<Block> blocks = new ArrayList<>(List.of(block, block1, block2, block3));
+        ArrayList<Block> blocks = new ArrayList<>(List.of(block, block1));
+        BlockGraph bg = new BlockGraph(blocks);
         ArrayList<Spawner> spawners = new ArrayList<>(List.of(spawner, spawner1));
         ArrayList<Car> cars = new ArrayList<>();
         Despawner despawner = new Despawner(400, 55, cars);
