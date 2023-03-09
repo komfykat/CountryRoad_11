@@ -10,6 +10,7 @@ public class Car {
     private double y;
     public double BlockX;
     public double BlockY;
+    public int number;
     private double v;
     public double vx;
     public double vy;

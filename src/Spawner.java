@@ -7,12 +7,14 @@ public class Spawner {
     public Car car;
     public double time;
     public double spawnTime;
+    public int number;
 
-    public Spawner(double x, double y, Car blankcar, double spawnTime) {
+    public Spawner(double x, double y, Car blankcar, double spawnTime, int number) {
         this.x = x;
         this.y = y;
         this.blankcar = blankcar;
         this.spawnTime = spawnTime;
+        this.number = number;
     }
 
     public void updateCars(ArrayList<Car> cars, ArrayList<Block> blocks) {
@@ -34,6 +36,7 @@ public class Spawner {
                     cars.add(car1);
                     car1.cars = cars;
                     car = car1;
+                    car.number = this.number;
                     time = 0;
                 }
             }

@@ -7,18 +7,17 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         Random r = new Random(1);
         Car blankcar = new Car(30, 5, 5);
-        Spawner spawner = new Spawner(0,  55, blankcar, 2000);
-        Spawner spawner1 = new Spawner(400, 45, blankcar, 2000);
+        Spawner spawner = new Spawner(0,  55, blankcar, 2000, 0);
+        Spawner spawner1 = new Spawner(200, 45, blankcar, 2000, 1);
         HBlock block = new HBlock(0, 0, 100, 100);
         HBlock block1 = new HBlock(100, 0, 100, 100);
-        HBlock block2 = new HBlock(200, 0, 100, 100);
-        HBlock block3 = new HBlock(300, 0, 100, 100);
         ArrayList<Block> blocks = new ArrayList<>(List.of(block, block1));
         BlockGraph bg = new BlockGraph(blocks);
+        System.out.println(bg.shortestPath(0));
         ArrayList<Spawner> spawners = new ArrayList<>(List.of(spawner, spawner1));
         ArrayList<Car> cars = new ArrayList<>();
-        Despawner despawner = new Despawner(400, 55, cars);
-        Despawner despawner1 = new Despawner(0, 45, cars);
+        Despawner despawner = new Despawner(200, 55, cars, 0);
+        Despawner despawner1 = new Despawner(0, 45, cars, 1);
         ArrayList<Despawner> despawners = new ArrayList<>(List.of(despawner, despawner1));
         JFrame frame = new JFrame();
         frame.setSize(1920, 1080);
