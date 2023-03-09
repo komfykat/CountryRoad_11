@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Math.abs;
 
@@ -26,6 +27,9 @@ public class Car {
     public ArrayList<Block> blocks;
     public ArrayList<Car> cars;
     public Spawner spawner;
+    public ArrayList<Integer> GlobalPath;
+    public BlockGraph bg;
+    public int GlobalPathPosition = 0;
 
     public Car(double blockX, double blockY, double v, double width, double height, Path path, Block block, ArrayList<Block> blocks) {
         BlockX = blockX;
@@ -47,6 +51,9 @@ public class Car {
         this.width = width;
         this.height = height;
         this.spawner = spawner;
+        this.bg = spawner.bg;
+        this.blocks = bg.blocks;
+        GlobalPath = spawner.GlobalPath;
     }
 
     public Car(double v, double width, double height) {
@@ -195,10 +202,15 @@ public class Car {
     public boolean findNextBlock() {
         for (Block block : blocks) {
             for (Path path : block.paths) {
-                if (abs(path.getXs().get(0) + block.x - getX()) <= Constants.epsilon && abs(path.getYs().get(0) + block.y - getY()) <= Constants.epsilon) {
+                ArrayList<Double> startPoint1 = new ArrayList<>(List.of(path.getXs().get(0) + block.x, path.getYs().get(0) + block.y));
+                int startPoint = bg.points.indexOf(startPoint1);
+                ArrayList<Double> finishPoint1 = new ArrayList<>(List.of(path.getXs().get(path.n - 1) + block.x, path.getYs().get(path.n - 1) + block.y));
+                int finishPoint = bg.points.indexOf(finishPoint1);
+                if (startPoint == GlobalPath.get(GlobalPathPosition) && finishPoint == GlobalPath.get(GlobalPathPosition + 1)) {
                     this.block = block;
                     this.path = path;
                     PathPosition = 0;
+                    GlobalPathPosition += 1;
                     inPath = true;
                     BlockX = path.getXs().get(0);
                     BlockY = path.getYs().get(0);
@@ -209,17 +221,17 @@ public class Car {
         return false;
     }
 
-    public boolean ifBlock() {
-        boolean foundBlock = false;
-        for (Block block : blocks) {
-            for (Path path : block.paths) {
-                if (abs(path.getXs().get(0) + block.x - getX()) <= Constants.epsilon && abs(path.getYs().get(0) + block.y - getY()) <= Constants.epsilon) {
-                    foundBlock = true;
-                }
-            }
-        }
-        return foundBlock;
-    }
+//    public boolean ifBlock() {
+//        boolean foundBlock = false;
+//        for (Block block : blocks) {
+//            for (Path path : block.paths) {
+//                if (abs(path.getXs().get(0) + block.x - getX()) <= Constants.epsilon && abs(path.getYs().get(0) + block.y - getY()) <= Constants.epsilon) {
+//                    foundBlock = true;
+//                }
+//            }
+//        }
+//        return foundBlock;
+//    }
 
 
     public boolean check(Car car) {

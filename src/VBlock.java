@@ -6,8 +6,8 @@ public class VBlock extends Block {
 
     public VBlock(double x, double y, double width, double height) {
         super(new ArrayList<>(List.of(new Path())), x, y, width, height);
-        double x1 = 0.45 * width;
-        double x2 = 0.55 * width;
+        double x1 = 45;
+        double x2 = 55;
         Path pathDU = new Path(new ArrayList<>(List.of(x2, x2)), new ArrayList<>(List.of(height, 0.0)));
         Path pathUD = new Path(new ArrayList<>(List.of(x1, x1)), new ArrayList<>(List.of(0.0, height)));
         super.paths = new ArrayList<>(List.of(pathDU, pathUD));

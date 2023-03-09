@@ -6,10 +6,10 @@ public class DRBlock extends Block {
 
     public DRBlock(double x, double y, double width, double height) {
         super(new ArrayList<>(List.of(new Path())), x, y, width, height);
-        double x1 = 0.45 * width;
-        double x2 = 0.55 * width;
-        double y1 = 0.45 * height;
-        double y2 = 0.55 * height;
+        double x1 = 45;
+        double x2 = 55;
+        double y1 = 45;
+        double y2 = 55;
         Path pathDR = new Path(new ArrayList<>(List.of(x2, x2, width)), new ArrayList<>(List.of(height, y2, y2)));
         Path pathRD = new Path(new ArrayList<>(List.of(width, x1, x1)), new ArrayList<>(List.of(y1, y1, height)));
         super.paths = new ArrayList<>(List.of(pathDR, pathRD));
