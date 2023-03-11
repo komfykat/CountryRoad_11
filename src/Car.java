@@ -158,31 +158,34 @@ public class Car {
 
         } else {
             boolean flag2 = findNextBlock();
-            if (!flag2){
+            if (!flag2) {
                 this.stop();
             }
         }
     }
-    public double distance(Car car){
+
+    public double distance(Car car) {
         return Math.sqrt(Math.pow(x - car.x, 2) + Math.pow(y - car.y, 2));
     }
+
     public boolean intersect(Car car) {
-            if (car.inMotion && !(car.vx == 0 && car.vy == 0)) {
-                double carvx = car.vx;
-                double carvy = car.vy;
-                if (abs(carvx / vx - carvy / vy) <= Constants.epsilon) {
-                    return this.distance(car) <= car.height * 4;
-                } else {
-                    Line2D a = new Line2D.Double(x, y, x + vx * Constants.check, y + vy * Constants.check);
-                    Line2D b = new Line2D.Double(car.x, car.y, car.x + car.vx * Constants.check, car.y + car.vy * Constants.check);
-                    return (a.intersectsLine(b));
-                }
+        if (car.inMotion && !(car.vx == 0 && car.vy == 0)) {
+            double carvx = car.vx;
+            double carvy = car.vy;
+            if (abs(carvx / vx - carvy / vy) <= Constants.epsilon) {
+                return this.distance(car) <= car.height * 4;
+//                    return false;
             } else {
                 Line2D a = new Line2D.Double(x, y, x + vx * Constants.check, y + vy * Constants.check);
-                Rectangle2D b = new Rectangle2D.Double(car.x - 5, car.y - 5, 10, 10);
-                return (a.intersects(b));
+                Line2D b = new Line2D.Double(car.x, car.y, car.x + car.vx * Constants.check, car.y + car.vy * Constants.check);
+                return (a.intersectsLine(b));
             }
+        } else {
+            Line2D a = new Line2D.Double(x, y, x + vx * Constants.check, y + vy * Constants.check);
+            Rectangle2D b = new Rectangle2D.Double(car.x - 5, car.y - 5, 10, 10);
+            return (a.intersects(b));
         }
+    }
 
     public boolean atRight(Car car) {
         Vector3D a = new Vector3D(Constants.check * vx, Constants.check * vy, 0);
@@ -235,9 +238,10 @@ public class Car {
 
 
     public boolean check(Car car) {
+        if (this.block.isCrossroad) {
             if (intersect(car)) {
-               System.out.println("Intersects" + "" + cars.indexOf(this));
-                if (!(car.inMotion)){
+                System.out.println("Intersects" + "" + cars.indexOf(this));
+                if (!(car.inMotion)) {
                     return true;
                 }
                 if (atRight(car)) {
@@ -250,6 +254,9 @@ public class Car {
             } else {
                 return false;
             }
+        } else {
+            return false;
+        }
     }
 
     public Car copy() {

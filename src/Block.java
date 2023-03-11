@@ -6,6 +6,7 @@ public class Block {
     double x;
     double y;
     double width;
+    boolean isCrossroad = false;
     double height;
 
     public double getX() {

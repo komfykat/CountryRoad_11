@@ -20,7 +20,7 @@ public class HBlock extends Block{
         g.drawRect((int) this.x, (int) this.y, (int) width, (int)height);
         double y0 = 40 + y;
         double yt = 60 + y;
-        g.drawLine((int) x, (int)(y + y0), (int)(x + width), (int)(y + y0));
-        g.drawLine((int) x, (int)(y + yt), (int)(x + width), (int)(y + yt));
+        g.drawLine((int) x, (int)(y0), (int)(x + width), (int)(y0));
+        g.drawLine((int) x, (int)(yt), (int)(x + width), (int)(yt));
     }
 }

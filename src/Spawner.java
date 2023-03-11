@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Spawner {
     public double x;
@@ -39,13 +40,13 @@ public class Spawner {
                 }
             } else {
                 Car car1 = new Car(blankcar.getV(), blankcar.getWidth(), blankcar.getHeight(), this);
-                    car1.findNextBlock();
-                    cars.add(car1);
-                    car1.cars = cars;
-                    car = car1;
-                    car.number = this.number;
-                    time = 0;
-                }
+                car1.findNextBlock();
+                cars.add(car1);
+                car1.cars = cars;
+                car = car1;
+                car.number = this.number;
+                time = 0;
+            }
         } else {
             time += Constants.tick * 1000;
         }
@@ -62,17 +63,17 @@ public class Spawner {
 
     public ArrayList<Integer> GetGlobalPath() {
         if (nicedespawners.size() > 0) {
-            int despawnermin = 0;
+            int despawnermin = -1;
             double dmin = 1000000000;
             for (Despawner despawner : nicedespawners) {
                 int bgdespawnernumber = bg.points.indexOf(new ArrayList<>(List.of(despawner.x, despawner.y)));
                 double d = bg.shortestPathDistance(bgnumber, bgdespawnernumber);
                 if (d < dmin) {
-                    despawnermin = bgdespawnernumber;
-                    dmin = d;
+                        despawnermin = bgdespawnernumber;
+                        dmin = d;
                 }
             }
-            if (dmin == 1000000000) {
+            if (despawnermin == -1) {
                 System.out.println("No Global Path! Rebuild your road!");
                 return new ArrayList<Integer>();
             }
